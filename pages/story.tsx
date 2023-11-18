@@ -20,11 +20,9 @@ const Story = () => {
 		const luckyId = Math.floor(Math.random() * (length));
 		console.log(luckyId)
 		setTimeout(()=>{
-			setTask(filteredTask[luckyId].title)
+			setTask(`Your next task is ${filteredTask[luckyId].title}`)
 			setIsLoading(false)
-		},500)
-		
-
+		},1000)
 	}, [])
 	return (
 		<Page>

@@ -20,11 +20,8 @@ const Recipes = () => {
 								<div>{task.title}</div>
 								<div>{task.points}</div>
 							</div>
-
 							</>
 						)
-
-
 				})}
 			</Section>
 		</Page>

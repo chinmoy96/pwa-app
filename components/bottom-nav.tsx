@@ -52,39 +52,19 @@ const links = [
 		),
 	},
 	{
-		label: 'Story',
+		label: 'Choose for me',
 		href: '/story',
 		icon: (
-			<svg
-				viewBox='0 0 15 15'
-				fill='none'
-				xmlns='http://www.w3.org/2000/svg'
-				width='18'
-				height='18'
-			>
-				<path
-					d='M2.5.5V0H2v.5h.5zm10 0h.5V0h-.5v.5zM4.947 4.724a.5.5 0 00-.894-.448l.894.448zM2.5 8.494l-.447-.223-.146.293.21.251.383-.32zm5 5.997l-.384.32a.5.5 0 00.769 0l-.385-.32zm5-5.996l.384.32.21-.251-.146-.293-.447.224zm-1.553-4.219a.5.5 0 00-.894.448l.894-.448zM8 9.494v-.5H7v.5h1zm-.5-4.497A4.498 4.498 0 013 .5H2a5.498 5.498 0 005.5 5.497v-1zM2.5 1h10V0h-10v1zM12 .5a4.498 4.498 0 01-4.5 4.497v1c3.038 0 5.5-2.46 5.5-5.497h-1zM4.053 4.276l-2 3.995.895.448 2-3.995-.895-.448zM2.116 8.815l5 5.996.769-.64-5-5.996-.769.64zm5.768 5.996l5-5.996-.768-.64-5 5.996.769.64zm5.064-6.54l-2-3.995-.895.448 2 3.995.895-.448zM8 14.49V9.494H7v4.997h1z'
-					fill='currentColor'
-				/>
-			</svg>
+			<svg fill="#fff" width='18'
+			height='18' version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512.00 512.00" enable-background="new 0 0 512 512"  stroke="#fff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path  d="M256,0C114.609,0,0,114.609,0,256s114.609,256,256,256s256-114.609,256-256S397.391,0,256,0z M256,472 c-119.297,0-216-96.703-216-216S136.703,40,256,40s216,96.703,216,216S375.297,472,256,472z"></path> <g> <polygon points="336,224 336,240 384,208.25 336,176 336,192 272,192 208,288 128,288.25 128,320 224,320 288,224 "></polygon> <polygon points="219.719,241.578 238.391,213.578 224,192 128,192 128,224 208,224 "></polygon> <polygon points="336,288 288,288 276.281,270.422 257.625,298.422 272,320 336,320 336,336 384,303.75 336,272 "></polygon> </g> </g> </g></svg>
 		),
 	},
 	{
-		label: 'Recipes',
+		label: 'All tasks',
 		href: '/recipes',
 		icon: (
-			<svg
-				viewBox='0 0 15 15'
-				fill='none'
-				xmlns='http://www.w3.org/2000/svg'
-				width='18'
-				height='18'
-			>
-				<path
-					d='M7.5 15V7m0 .5v3m0-3a4 4 0 00-4-4h-3v3a4 4 0 004 4h3m0-3h3a4 4 0 004-4v-3h-3a4 4 0 00-4 4v3zm0 0l4-4m-4 7l-4-4'
-					stroke='currentColor'
-				/>
-			</svg>
+			<svg viewBox="0 0 24 24" fill="none" width='18'
+			height='18' xmlns="http://www.w3.org/2000/svg" stroke="#fff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11 6L21 6.00072M11 12L21 12.0007M11 18L21 18.0007M3 11.9444L4.53846 13.5L8 10M3 5.94444L4.53846 7.5L8 4M4.5 18H4.51M5 18C5 18.2761 4.77614 18.5 4.5 18.5C4.22386 18.5 4 18.2761 4 18C4 17.7239 4.22386 17.5 4.5 17.5C4.77614 17.5 5 17.7239 5 18Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
 		),
 	},
 ]

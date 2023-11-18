@@ -1,0 +1,15 @@
+.input {
+    margin-top: 15px;
+}
+
+.buttonWrap{
+    display: flex;
+    justify-content: center;
+}
+
+.points{
+    margin-top: 1rem;
+}
+.tasklist{
+    margin-top: 3rem;
+}

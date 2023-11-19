@@ -2,36 +2,45 @@ import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import styles from './AddComponent.module.css'
 import Checkbox from '../CheckBox/CheckBox';
+import Button from '@mui/material/Button';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
 
 export type Task = {
     id: string,
     title: string,
     isCompleted: boolean,
-    isArchived:boolean,
+    isArchived: boolean,
     points: number
 }
 
 const Add = () => {
     const [taskName, setTaskName] = useState("");
     const [taskList, setTaskList] = useState<Array<Task>>([]);
-    const [myPoints,setMyPoints] = useState(0)
+    const [myPoints, setMyPoints] = useState(0)
     const [point, setPoint] = useState(0);
+    const [sortBy, setSortBy] = useState("LtH");
     useEffect(() => {
-        const tasks= JSON.parse(localStorage.getItem("tasks")|| "[]");
-        let sum=0;
-        setTaskList(tasks);
-        console.log(tasks)
-        for(let i=0;i<tasks.length;i++){
-            if(tasks[i].isCompleted){
-                sum+=tasks[i].points;
+        const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+        let sum = 0;
+        const sortedTask = tasks.sort((a: Task, b: Task) => {
+            return (a.points - b.points);
+        })
+        setTaskList(sortedTask);
+        //console.log(sortedTask)
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i].isCompleted) {
+                sum += tasks[i].points;
             }
         }
-        const onLocalStorageChange =() => {
+        const onLocalStorageChange = () => {
             console.log("Change to local storage!");
-            sum=0;
-            for(let i=0;i<tasks.length;i++){
-                if(tasks[i].isCompleted){
-                    sum+=tasks[i].points;
+            sum = 0;
+            for (let i = 0; i < tasks.length; i++) {
+                if (tasks[i].isCompleted) {
+                    sum += tasks[i].points;
                 }
             }
             setMyPoints(sum);
@@ -39,10 +48,24 @@ const Add = () => {
         }
         window.addEventListener('storage', onLocalStorageChange)
         setMyPoints(sum);
-        return(()=>{
-            window.removeEventListener('storage',onLocalStorageChange);
+        return (() => {
+            window.removeEventListener('storage', onLocalStorageChange);
         })
     }, [])
+    const sort = (sortBy: string) => {
+        if (sortBy === 'LtH') {
+            const sortedTask = taskList.sort((a, b) => {
+                return (a.points - b.points);
+            })
+            setTaskList(sortedTask);
+        } else {
+            const sortedTask = taskList.sort((b, a) => {
+                return (a.points - b.points);
+            })
+            setTaskList(sortedTask);
+        }
+
+    }
     const addTask = () => {
         if (taskName === '') {
             return
@@ -52,7 +75,7 @@ const Add = () => {
             title: taskName,
             isCompleted: false,
             points: point,
-            isArchived:false
+            isArchived: false
         });
         localStorage.setItem("tasks", JSON.stringify(taskList));
         setTaskName('');
@@ -67,7 +90,7 @@ const Add = () => {
         localStorage.setItem("tasks", JSON.stringify(taskList));
         window.dispatchEvent(new Event("storage"));
     }
-    const handleDelete = (id: string)=>{
+    const handleDelete = (id: string) => {
         for (let i = 0; i < taskList.length; i++) {
             if (taskList[i].id === id) {
                 taskList[i].isArchived = true;
@@ -77,13 +100,16 @@ const Add = () => {
         localStorage.setItem("tasks", JSON.stringify(taskList));
         setTaskList([...taskList]);
     }
-
+    const handleSortChange = (event: SelectChangeEvent) => {
+        setSortBy(event.target.value);
+        sort(event.target.value);
+    };
     return (
         <>
             <h2 className='text-xl font-semibold'>What do you want to do today</h2>
             <div className={`relative z-0 ${styles.input}`}>
                 <input value={taskName} onChange={(e) => { setTaskName(e.target.value) }} type="text" id="floating_standard" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                <label htmlFor="floating_standard" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Floating standard</label>
+                <label htmlFor="floating_standard" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Task name</label>
             </div>
             <div>
                 <ul className="items-center w-full text-sm font-medium text-gray-900 rounded-lg flex">
@@ -114,23 +140,36 @@ const Add = () => {
                 </ul>
             </div>
             <div className={styles.buttonWrap}>
-                <button onClick={addTask} className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+                <Button onClick={addTask} className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
                     Add task
-                </button>
+                </Button>
             </div>
-            <h5 className={styles.points}>total points done till today {myPoints}</h5>
+            {/* <h5 className={styles.points}>total points done till today {myPoints}</h5> */}
+            <FormControl sx={{ marginTop: 5, minWidth: 120 }} size="small">
+                <InputLabel id="demo-select-small-label">Sort By</InputLabel>
+                <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    value={sortBy}
+                    label="Sort By"
+                    onChange={handleSortChange}
+                >
+                    <MenuItem value={"LtH"}>Low to High</MenuItem>
+                    <MenuItem value={"HtL"}>High to Low</MenuItem>
+                </Select>
+            </FormControl>
             <div className={styles.tasklist}>
                 {taskList.map((task) => {
-                    return (!task.isArchived?(
+                    return (!task.isArchived ? (
                         <Checkbox
-                        key={task.id}
+                            key={task.id}
                             id={task.id}
                             handleClick={handleClick}
                             handleDelete={handleDelete}
                             point={task.points}
                             label={task.title}
                             isCompleted={task.isCompleted} />
-                    ):null)
+                    ) : null)
                 })}
 
             </div>

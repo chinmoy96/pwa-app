@@ -1,32 +1,67 @@
 import Page from '@/components/page'
 import Section from '@/components/section'
 import { useEffect, useState } from 'react';
+import Button from '@mui/material/Button';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Chip from '@mui/material/Chip';
 
 const Story = () => {
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 	const [task, setTask] = useState("");
+	const [findBy, setFindBy] = useState(-1);
 	useEffect(() => {
-		const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
-		const filteredTask = tasks.filter((item:any) => {
+
+	}, [])
+	const handleClick = () => {
+		setIsLoading(true);
+		let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+		if (findBy !== -1) {
+			tasks = tasks.filter((item: any) => {
+				return (item.points === findBy)
+			})
+		}
+		const filteredTask = tasks.filter((item: any) => {
 			return (!item.isCompleted && !item.isArchived)
 		})
 		const length = filteredTask.length;
-		if(length===0){
+		if (length === 0) {
 			setTask("all tasks completed");
-			
 			setIsLoading(false);
 			return;
 		}
 		const luckyId = Math.floor(Math.random() * (length));
 		console.log(luckyId)
-		setTimeout(()=>{
+		setTimeout(() => {
 			setTask(`Your next task is ${filteredTask[luckyId].title}`)
 			setIsLoading(false)
-		},1000)
-	}, [])
+		}, 1000)
+	}
+	const handleFindByChange = (event: SelectChangeEvent) => {
+		setFindBy(Number(event.target.value));
+	};
 	return (
 		<Page>
 			<Section>
+			< FormControl sx = {{ display: "flex", marginTop: 5, minWidth: 120 }} size = "small" >
+					<InputLabel id="demo-select-small-label">Find By</InputLabel>
+					<Select
+						labelId="demo-select-small-label"
+						id="demo-select-small"
+						value={String(findBy)}
+						label="Sort By"
+						onChange={handleFindByChange}
+					>
+						<MenuItem value={-1}>All</MenuItem>
+						<MenuItem value={0}>O</MenuItem>
+						<MenuItem value={1}>1</MenuItem>
+						<MenuItem value={2}>2</MenuItem>
+						<MenuItem value={3}>3</MenuItem>
+					</Select>
+					<Button sx={{ marginTop: 5, minWidth: 120 }} onClick={handleClick}>Find</Button>
+				</FormControl >
 				<h2 className='text-xl font-semibold'></h2>
 				{isLoading ?
 					(<div className="text-center">
@@ -39,11 +74,12 @@ const Story = () => {
 						</div>
 					</div>) :
 					(<>
+					<div className='flex align-middle justify-center'>
+					{task && <Chip label={task} variant="outlined" size='medium' />}
 
-						{task}
+					</div>
 					</>)
 				}
-
 			</Section>
 		</Page>
 	)
@@ -52,3 +88,4 @@ const Story = () => {
 export default Story
 
 
+	

@@ -89,6 +89,7 @@ const Add = () => {
         }
         localStorage.setItem("tasks", JSON.stringify(taskList));
         window.dispatchEvent(new Event("storage"));
+        setTaskList([...taskList]);
     }
     const handleDelete = (id: string) => {
         for (let i = 0; i < taskList.length; i++) {
@@ -160,7 +161,19 @@ const Add = () => {
             </FormControl>
             <div className={styles.tasklist}>
                 {taskList.map((task) => {
-                    return (!task.isArchived ? (
+                    return (!task.isArchived && !task.isCompleted ? (
+                        <Checkbox
+                            key={task.id}
+                            id={task.id}
+                            handleClick={handleClick}
+                            handleDelete={handleDelete}
+                            point={task.points}
+                            label={task.title}
+                            isCompleted={task.isCompleted} />
+                    ) : null)
+                })}
+                {taskList.map((task) => {
+                    return (!task.isArchived && task.isCompleted ? (
                         <Checkbox
                             key={task.id}
                             id={task.id}

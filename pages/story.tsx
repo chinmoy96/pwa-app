@@ -28,7 +28,7 @@ const Story = () => {
 		})
 		const length = filteredTask.length;
 		if (length === 0) {
-			setTask("all tasks completed");
+			setTask("All tasks completed");
 			setIsLoading(false);
 			return;
 		}

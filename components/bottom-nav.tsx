@@ -60,7 +60,7 @@ const links = [
 		),
 	},
 	{
-		label: 'All tasks',
+		label: 'Archived',
 		href: '/recipes',
 		icon: (
 			<svg viewBox="0 0 24 24" fill="none" width='18'
